@@ -110,7 +110,11 @@ conds.is_ts_node = function(nodes)
         log.debug('is_ts_node')
         if #nodes == 0 then return  end
 
-        parsers.get_parser():parse()
+        local parser = parsers.get_parser()
+        if not parser then
+            return false
+        end
+        parser:parse()
         local target = ts_utils.get_node_at_cursor()
         if target ~= nil and utils.is_in_table(nodes, target:type()) then
             return true
